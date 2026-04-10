@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forma — AI Running Coach | Run in Better Form</title>
+    <meta name="description" content="Forma is your AI running coach. Analyses every run, builds your training plan, and talks to you — the way a real coach would.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Forma — AI Running Coach">
+    <meta property="og:description" content="Analyses every run, builds your training plan, and talks to you — the way a real coach would.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://runwithforma.com">
+    <meta property="og:site_name" content="Forma">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Forma — AI Running Coach">
+    <meta name="twitter:description" content="Analyses every run, builds your training plan, and talks to you — the way a real coach would.">
+    <meta name="twitter:site" content="@runwithforma">
+
+    <link rel="canonical" href="https://runwithforma.com">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,400;0,700;0,800;1,400;1,700;1,800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #7A1F35;
+            --accent: #C97C08;
+            --background: #FAF8F4;
+            --surface: #F0EBE5;
+            --text: #1A1014;
+            --text-secondary: #6B5C60;
+            --text-mid: #9A8A8E;
+            --border: #E8DDD5;
+            --dark-bg: #1A1014;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Fraunces', serif;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: clamp(1.75rem, 5vw, 2.75rem);
+            line-height: 1.15;
+        }
+
+        h3 {
+            font-size: clamp(1.25rem, 3.5vw, 1.75rem);
+        }
+
+        .section-label {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .italic-accent {
+            font-style: italic;
+            color: var(--primary);
+            font-family: 'Fraunces', serif;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(250, 248, 244, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Fraunces', serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -1px;
+            color: var(--primary);
+        }
+
+        .logo .period {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn-waitlist {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-waitlist:hover {
+            background-color: #5f1729;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 140px;
+            padding-bottom: 60px;
+            background-color: var(--background);
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        .hero-subheading {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+        }
+
+        .hero-form {
+            max-width: 450px;
+            margin: 0 auto 2rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .hero-form input {
+            flex: 1;
+            min-width: 220px;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            background-color: white;
+        }
+
+        .hero-form input::placeholder {
+            color: var(--text-mid);
+        }
+
+        .hero-form button {
+            padding: 1rem 2rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .hero-form button:hover {
+            background-color: #5f1729;
+            transform: translateY(-2px);
+        }
+
+        .social-proof {
+            color: var(--text-mid);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .social-proof strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            background-color: var(--surface);
+            padding: 3rem 2rem;
+            margin: 4rem 0;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Fraunces', serif;
+            font-weight: 800;
+            font-size: 1.75rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            background-color: var(--background);
+            padding: 4rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header .section-label {
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+
+        .steps-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .step-card {
+            background-color: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .step-number {
+            font-family: 'Fraunces', serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .step-card h3 {
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        .step-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Coach Demo Section */
+        .coach-demo {
+            background-color: var(--surface);
+            padding: 4rem 2rem;
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .demo-content h2 {
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        .demo-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .demo-features-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .demo-features-list li {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .demo-features-list li:before {
+            content: "✓";
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        /* Chat Window */
+        .chat-window {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #5f1729 100%);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .chat-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .message.coach {
+            justify-content: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .message.coach .message-bubble {
+            background-color: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .message.user .message-bubble {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .data-card {
+            background: linear-gradient(135deg, rgba(122, 31, 53, 0.1), rgba(201, 124, 8, 0.05));
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        .data-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .data-label {
+            color: var(--text-mid);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-value {
+            color: var(--primary);
+            font-weight: 600;
+            font-family: 'Fraunces', serif;
+        }
+
+        .data-value.up {
+            color: #16a34a;
+        }
+
+        /* Features Grid */
+        .features {
+            background-color: var(--background);
+            padding: 4rem 2rem;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Integrations Section */
+        .integrations {
+            background-color: var(--dark-bg);
+            padding: 4rem 2rem;
+            color: white;
+        }
+
+        .integrations-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .integrations .section-header {
+            color: white;
+        }
+
+        .integrations .section-label {
+            color: var(--accent);
+        }
+
+        .integrations h2 {
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .integration-logos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .integration-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+        }
+
+        .integration-logo {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .integration-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            background-color: var(--background);
+            padding: 4rem 2rem;
+        }
+
+        .pricing-cards {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .price-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .price-card.featured {
+            background: linear-gradient(135deg, var(--primary) 0%, #5f1729 100%);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 20px 50px rgba(122, 31, 53, 0.2);
+        }
+
+        .price-card.featured .price-label,
+        .price-card.featured h3,
+        .price-card.featured .price-period {
+            color: white;
+        }
+
+        .price-card.featured .feature-list {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .price-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-mid);
+            margin-bottom: 1rem;
+        }
+
+        .price-card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .price-amount {
+            font-family: 'Fraunces', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .price-card.featured .price-amount {
+            color: white;
+        }
+
+        .price-period {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .price-card.featured .feature-list li {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .price-card .btn-waitlist {
+            width: 100%;
+        }
+
+        .price-card.featured .btn-waitlist {
+            background-color: var(--accent);
+            color: var(--text);
+        }
+
+        .price-card.featured .btn-waitlist:hover {
+            background-color: #a66300;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--primary) 0%, #5f1729 100%);
+            padding: 4rem 2rem;
+            color: white;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .final-cta-form {
+            max-width: 450px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .final-cta-form input {
+            flex: 1;
+            min-width: 220px;
+            padding: 1rem;
+            border: none;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .final-cta-form button {
+            padding: 1rem 2rem;
+            background-color: var(--accent);
+            color: var(--text);
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .final-cta-form button:hover {
+            background-color: #a66300;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            color: var(--text-mid);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #a66300;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 100px;
+                padding-bottom: 40px;
+            }
+
+            .hero-form {
+                flex-direction: column;
+            }
+
+            .hero-form input,
+            .hero-form button {
+                width: 100%;
+            }
+
+            .demo-container {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-window {
+                height: 400px;
+            }
+
+            .price-card.featured {
+                transform: scale(1);
+            }
+
+            .message-bubble {
+                max-width: 85%;
+            }
+
+            .data-card {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth scrolling behavior */
+        a[href^="#"] {
+            color: var(--text);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Forma<span class="period">.</span></div>
+            <ul class="nav-links">
+                <li><a href="#how-it-works">How it works</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+            <button class="btn-waitlist">Join Waitlist</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Run in better <span class="italic-accent">form.</span></h1>
+            <p class="hero-subheading">Your AI running coach. Analyses every run, builds your training plan, and talks to you — the way a real coach would.</p>
+
+            <div class="hero-form" id="hero-form">
+                <input type="email" id="hero-email" placeholder="Enter your email" autocomplete="email">
+                <button type="button" onclick="subscribeToWaitlist('hero-email', 'hero-form')">Get early access</button>
+            </div>
+
+            <div class="social-proof">
+                <strong>200+</strong> runners already on the waitlist
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <section class="stats-bar">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">VO₂max</div>
+                <div class="stat-label">Tracked & coached</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">Real-time</div>
+                <div class="stat-label">Plan adjustments</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">AI coach access</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">+10</div>
+                <div class="stat-label">Integrations ready</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="section-header">
+            <span class="section-label">How It Works</span>
+            <h2>Train <span class="italic-accent">smarter</span>, not just harder</h2>
+        </div>
+
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Sync your run</h3>
+                <p>Connect Strava, Apple Health, or Garmin. Forma automatically pulls your run data—pace, distance, heart rate, and more.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Get your debrief</h3>
+                <p>Your AI coach analyses everything: pacing, effort, form, aerobic capacity. You get a personalized breakdown in seconds.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Train smarter</h3>
+                <p>Your coach builds your next run around what you just learned. Adjust zones, distance, or intensity—your call.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coach Demo Section -->
+    <section class="coach-demo">
+        <div class="demo-container">
+            <div class="demo-content">
+                <h2>Meet your <span class="italic-accent">coach</span></h2>
+                <p>Forma doesn't just show you metrics. Your AI coach understands your running, talks to you about what matters, and helps you get faster the right way.</p>
+
+                <ul class="demo-features-list">
+                    <li>Post-run debrief with personalized insights</li>
+                    <li>Real-time training plan adjustments</li>
+                    <li>Ask questions, get answers instantly</li>
+                    <li>Track your form and pace improvements</li>
+                </ul>
+            </div>
+
+            <div class="chat-window">
+                <div class="chat-header">Arthur</div>
+                <div class="chat-body">
+                    <div class="message coach">
+                        <div class="message-bubble">
+                            Nice run today! Let me break down what I saw.
+                            <div class="data-card">
+                                <div class="data-item">
+                                    <span class="data-label">Distance</span>
+                                    <span class="data-value">10.2 km</span>
+                                </div>
+                                <div class="data-item">
+                                    <span class="data-label">Avg Pace</span>
+                                    <span class="data-value">5:22/km</span>
+                                </div>
+                                <div class="data-item">
+                                    <span class="data-label">VO₂max</span>
+                                    <span class="data-value up">47.3 ↑+1.1</span>
+                                </div>
+                                <div class="data-item">
+                                    <span class="data-label">Zone 2</span>
+                                    <span class="data-value">68%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message coach">
+                        <div class="message-bubble">
+                            One thing: you went too hard in the first km. Tomorrow I'm shifting your intervals to 5×3min at Z4 instead of the original plan. Thoughts?
+                        </div>
+                    </div>
+
+                    <div class="message user">
+                        <div class="message-bubble">
+                            Should I still do intervals tomorrow?
+                        </div>
+                    </div>
+
+                    <div class="message coach">
+                        <div class="message-bubble">
+                            Absolutely—your recovery HR looks solid. Just drop the pace by 15 seconds to let the system adapt. You've got this.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <span class="section-label">Features</span>
+            <h2>Everything you need to run your best</h2>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Run Analysis</h3>
+                <p>Every metric matters. Pace, form, aerobic capacity, and recovery—your coach sees it all and explains what it means.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3>Smart Planning</h3>
+                <p>Your training plan evolves with you. Forma adjusts based on your recent runs, fitness level, and goals—no generic templates.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Real Conversation</h3>
+                <p>Ask your coach anything. Why did my pace drop? Should I run tomorrow? What's my next target? Get thoughtful answers in real-time.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Goal Setting</h3>
+                <p>Set a 10K PB or a weekly mileage target. Your coach builds a plan to get you there, with checkpoints and adjustments along the way.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Progress Tracking</h3>
+                <p>Watch your VO₂max, pace, and efficiency improve. See patterns over weeks and months—not just individual runs.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔗</div>
+                <h3>Seamless Integration</h3>
+                <p>Strava, Apple Health, Apple Fitness, Garmin—your data flows in automatically. One coach, all your runs.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integrations Section -->
+    <section class="integrations">
+        <div class="integrations-content">
+            <div class="section-header">
+                <span class="section-label">Integrations</span>
+                <h2>Works with your favorite tools</h2>
+            </div>
+
+            <div class="integration-logos">
+                <div class="integration-item">
+                    <div class="integration-logo">🏃</div>
+                    <div class="integration-name">Strava</div>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-logo">🍎</div>
+                    <div class="integration-name">Apple Fitness</div>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-logo">❤️</div>
+                    <div class="integration-name">Apple Health</div>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-logo">⌚</div>
+                    <div class="integration-name">Garmin</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="section-header">
+            <span class="section-label">Pricing</span>
+            <h2>Choose your plan</h2>
+        </div>
+
+        <div class="pricing-cards">
+            <div class="price-card">
+                <span class="price-label">Free Forever</span>
+                <h3>Free</h3>
+                <div class="price-amount">$0</div>
+                <div class="price-period">Unlimited runs</div>
+                <ul class="feature-list">
+                    <li>Basic run analysis</li>
+                    <li>Integration sync</li>
+                    <li>Weekly AI debrief</li>
+                    <li>1 question per run</li>
+                </ul>
+                <button class="btn-waitlist">Start Free</button>
+            </div>
+
+            <div class="price-card featured">
+                <span class="price-label">Most Popular</span>
+                <h3>Premium</h3>
+                <div class="price-amount">AU$19.99</div>
+                <div class="price-period">per month, billed monthly</div>
+                <ul class="feature-list">
+                    <li>Full run analysis</li>
+                    <li>Real-time plan adjustments</li>
+                    <li>Unlimited coach questions</li>
+                    <li>Goal tracking & planning</li>
+                    <li>Form insights</li>
+                    <li>Priority support</li>
+                </ul>
+                <button class="btn-waitlist">Get Premium</button>
+            </div>
+
+            <div class="price-card">
+                <span class="price-label">Best Value</span>
+                <h3>Annual</h3>
+                <div class="price-amount">AU$179</div>
+                <div class="price-period">per year, billed once</div>
+                <ul class="feature-list">
+                    <li>Everything in Premium</li>
+                    <li>Save 26% vs. monthly</li>
+                    <li>Exclusive race training</li>
+                    <li>Early access to features</li>
+                </ul>
+                <button class="btn-waitlist">Get Annual</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+        <h2>Join the running revolution</h2>
+        <p style="margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">Get on the waitlist and be the first to run with your AI coach.</p>
+
+        <div class="final-cta-form" id="cta-form">
+            <input type="email" id="cta-email" placeholder="Enter your email" autocomplete="email">
+            <button type="button" onclick="subscribeToWaitlist('cta-email', 'cta-form')">Get early access</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Forma. All rights reserved. | <a href="#">Privacy</a> | <a href="#">Terms</a> | <a href="mailto:hello@runwithforma.com">Contact</a></p>
+    </footer>
+
+    <style>
+        .form-message {
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            min-height: 1.4rem;
+        }
+        .form-message.success { color: #2d7a4f; }
+        .form-message.error   { color: #b0162c; }
+        .form-message.loading { color: var(--text-secondary); }
+        button[disabled] { opacity: 0.6; cursor: not-allowed; }
+    </style>
+
+    <script>
+        // ─── Klaviyo Configuration ────────────────────────────────────────────
+        // Replace these two values after setting up your Klaviyo account.
+        // Public API Key:  Account → Settings → API Keys → Public API Key
+        // List ID:         Lists → "Forma Waitlist" → click list → copy ID from URL
+        const KLAVIYO_PUBLIC_KEY = 'UkyWrL';
+        const KLAVIYO_LIST_ID    = 'XCUWba';
+        // ─────────────────────────────────────────────────────────────────────
+
+        function getOrCreateMessage(formId) {
+            const form = document.getElementById(formId);
+            let msg = form.nextElementSibling;
+            if (!msg || !msg.classList.contains('form-message')) {
+                msg = document.createElement('p');
+                msg.className = 'form-message';
+                form.parentNode.insertBefore(msg, form.nextSibling);
+            }
+            return msg;
+        }
+
+        async function subscribeToWaitlist(inputId, formId) {
+            const input  = document.getElementById(inputId);
+            const form   = document.getElementById(formId);
+            const btn    = form.querySelector('button');
+            const msg    = getOrCreateMessage(formId);
+            const email  = input.value.trim();
+
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                msg.className = 'form-message error';
+                msg.textContent = 'Please enter a valid email address.';
+                return;
+            }
+
+            btn.disabled = true;
+            msg.className = 'form-message loading';
+            msg.textContent = 'Joining waitlist…';
+
+            try {
+                const res = await fetch(
+                    `https://a.klaviyo.com/client/subscriptions/?company_id=${KLAVIYO_PUBLIC_KEY}`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json',
+                            'revision': '2024-02-15'
+                        },
+                        body: JSON.stringify({
+                            data: {
+                                type: 'subscription',
+                                attributes: {
+                                    list_id: KLAVIYO_LIST_ID,
+                                    email_address: { address: email }
+                                }
+                            }
+                        })
+                    }
+                );
+
+                if (res.ok || res.status === 202) {
+                    input.value = '';
+                    msg.className = 'form-message success';
+                    msg.textContent = "You're on the list. We'll be in touch soon.";
+                    btn.textContent = 'You\'re in';
+                } else {
+                    throw new Error(`Status ${res.status}`);
+                }
+            } catch (err) {
+                msg.className = 'form-message error';
+                msg.textContent = 'Something went wrong. Please try again.';
+                btn.disabled = false;
+            }
+        }
+
+        // Allow Enter key on email inputs
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('hero-email').addEventListener('keydown', e => {
+                if (e.key === 'Enter') subscribeToWaitlist('hero-email', 'hero-form');
+            });
+            document.getElementById('cta-email').addEventListener('keydown', e => {
+                if (e.key === 'Enter') subscribeToWaitlist('cta-email', 'cta-form');
+            });
+        });
+    </script>
+</body>
+</html>
