@@ -1129,14 +1129,22 @@
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json',
-                            'revision': '2023-12-15'
+                            'revision': '2024-02-15'
                         },
                         body: JSON.stringify({
                             data: {
                                 type: 'subscription',
                                 attributes: {
                                     list_id: KLAVIYO_LIST_ID,
-                                    email_address: { address: email }
+                                    custom_source: 'Website Waitlist',
+                                    profile: {
+                                        data: {
+                                            type: 'profile',
+                                            attributes: {
+                                                email: email
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         })
