@@ -1114,6 +1114,14 @@
             msg.className = 'form-message loading';
             msg.textContent = 'Joining waitlist…';
 
+            // Detect local file:// testing — Klaviyo blocks CORS from file:// origins
+            if (window.location.protocol === 'file:') {
+                msg.className = 'form-message loading';
+                msg.textContent = 'Form works once deployed — cannot connect to Klaviyo from a local file.';
+                btn.disabled = false;
+                return;
+            }
+
             try {
                 const res = await fetch(
                     `https://a.klaviyo.com/client/subscriptions/?company_id=${KLAVIYO_PUBLIC_KEY}`,
@@ -1121,7 +1129,7 @@
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json',
-                            'revision': '2024-02-15'
+                            'revision': '2023-12-15'
                         },
                         body: JSON.stringify({
                             data: {
@@ -1139,13 +1147,15 @@
                     input.value = '';
                     msg.className = 'form-message success';
                     msg.textContent = "You're on the list. We'll be in touch soon.";
-                    btn.textContent = 'You\'re in';
+                    btn.textContent = "You're in";
                 } else {
+                    const errBody = await res.text();
+                    console.error('Klaviyo error:', res.status, errBody);
                     throw new Error(`Status ${res.status}`);
                 }
             } catch (err) {
                 msg.className = 'form-message error';
-                msg.textContent = 'Something went wrong. Please try again.';
+                msg.textContent = 'Something went wrong — please try again or email hello@runwithforma.com.';
                 btn.disabled = false;
             }
         }
