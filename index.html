@@ -1135,7 +1135,6 @@
                             data: {
                                 type: 'subscription',
                                 attributes: {
-                                    list_id: KLAVIYO_LIST_ID,
                                     custom_source: 'Website Waitlist',
                                     profile: {
                                         data: {
@@ -1143,6 +1142,14 @@
                                             attributes: {
                                                 email: email
                                             }
+                                        }
+                                    }
+                                },
+                                relationships: {
+                                    list: {
+                                        data: {
+                                            type: 'list',
+                                            id: KLAVIYO_LIST_ID
                                         }
                                     }
                                 }
@@ -1158,10 +1165,11 @@
                     btn.textContent = "You're in";
                 } else {
                     const errBody = await res.text();
-                    console.error('Klaviyo error:', res.status, errBody);
-                    throw new Error(`Status ${res.status}`);
+                    console.error('Klaviyo error — status:', res.status, '| body:', errBody);
+                    throw new Error(`Status ${res.status}: ${errBody}`);
                 }
             } catch (err) {
+                console.error('Form submission error:', err.message);
                 msg.className = 'form-message error';
                 msg.textContent = 'Something went wrong — please try again or email hello@runwithforma.com.';
                 btn.disabled = false;
